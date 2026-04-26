@@ -14,11 +14,12 @@ class Player:
         self.gamesPlayed = 0
         self.wins = 0
         self.losses = 0
+        self.replaying = False
 
     def play(self):
         #creates an instance of Game
         currentGame = Game(self)
-        replay = currentGame.startGame()
+        replay = currentGame.startGame(self.replaying)
         return replay
 
 class Game:
@@ -35,19 +36,21 @@ class Game:
         #size is the highest integer that can be chosen by the random number generator
         self.difficultyDict = {"Easy":{"Guesses": 10, "Size": 100}, "Medium":{"Guesses":10, "Size": 200}, "Hard":{"Guesses": 10, "Size":500}}
 
-    def startGame(self):
+    def startGame(self, replaying):
         #initialize stats to 0 because of replay
         self.difficulty = None
         self.number = None
         self.currentGuesses = 0
         self.remainingGuesses = 0
         self.maxGuesses = 0
-        print("In this game, you will guess the number randomly selected by a random number generator.\n" \
-        "The Number will always be a positive integer.\n" \
-        "The difficulty levels are as follows:\n" \
-        "-> Easy, where the number can range from 1 to 100\n" \
-        "-> Medium, where the number can range form 1 to 200\n" \
-        "-> Hard, where the number can range from 1 to 500\n")
+        if not replaying:
+            #explain the game
+            print("In this game, you will guess the number randomly selected by a random number generator.\n" \
+            "The Number will always be a positive integer.\n" \
+            "The difficulty levels are as follows:\n" \
+            "-> Easy, where the number can range from 1 to 100\n" \
+            "-> Medium, where the number can range form 1 to 200\n" \
+            "-> Hard, where the number can range from 1 to 500\n")
         #gather user input on what difficulty they want to play
         userInput = input("Select Difficulty (Easy, Medium, Hard): ")
         while userInput != "Easy" and userInput != "Medium" and userInput != "Hard":
@@ -98,7 +101,7 @@ class Game:
         #update the players stats
         self.player.wins += 1
         self.player.gamesPlayed += 1
-        print(f"\nYou won!\nThe correct number is {self.number}.\nYou guesses the number in {self.currentGuesses} guesses.\nYour record is now {self.player.wins} win(s) and {self.player.losses} loss(es).\n")
+        print(f"\nYou won!\nThe correct number is {self.number}.\nYou guessed the number in {self.currentGuesses} guesses.\nYour record is now {self.player.wins} win(s) and {self.player.losses} loss(es).\n")
         replay = input("Play again (Yes/No): ") #gather input based on if the player wants to replay
         if replay not in ["Yes", "No"]:
             while replay not in ["Yes", "No"]:
@@ -153,3 +156,4 @@ replay = True
 while replay:
     #lose/win return True or False depending on user input
     replay = user.play()
+    user.replaying = True
