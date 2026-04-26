@@ -77,23 +77,28 @@ class Game:
     def processGuess(self, guess):
         self.remainingGuesses -= 1
         self.currentGuesses += 1
+        int_guess = None
         try:
-            guess = int(guess)
+            int_guess = int(guess)
         except:
-            print("Invalid Guess.")
+            print("Invalid Guess (invalid value).")
             return "incorrect"
-        if int(guess) == int(self.number):
-            print(f"Your guess {guess} was correct.")
-            return "correct"
-        elif float(guess) > float(self.number):
-            print("Too High!")
+        if "." in guess and guess.isnumeric(): #stated that the guess needs to be a positive integer, float not allowed
+            print("Invalid Guess (only positive integers).")
             print("------------------------------")
-        elif guess <= 0:
+            return "incorrect"
+        elif int_guess == self.number:
+            print(f"Your guess {guess} was correct!") # required feedback
+            return "correct"
+        elif int_guess > self.number:
+            print("Too High!") #required feedback
+            print("------------------------------")
+        elif int_guess <= 0:
             #explicity stated a positive integer is needed
-            print("Invalid Guess.")
+            print("Invalid Guess (only positive integers).")
             print("------------------------------")
         else:
-            print("Too Low!")
+            print("Too Low!") #required feedback
             print("------------------------------")
         return "incorrect"
     
@@ -101,7 +106,7 @@ class Game:
         #update the players stats
         self.player.wins += 1
         self.player.gamesPlayed += 1
-        print(f"\nYou won!\nThe correct number is {self.number}.\nYou guessed the number in {self.currentGuesses} guesses.\nYour record is now {self.player.wins} win(s) and {self.player.losses} loss(es).\n")
+        print(f"\nCongradulations! You won!\nThe correct number is {self.number}.\nYou guessed the number in {self.currentGuesses} guesses.\nYour record is now {self.player.wins} win(s) and {self.player.losses} loss(es).\n")
         replay = input("Play again (Yes/No): ") #gather input based on if the player wants to replay
         if replay not in ["Yes", "No"]:
             while replay not in ["Yes", "No"]:
