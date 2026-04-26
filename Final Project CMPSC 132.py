@@ -6,6 +6,7 @@
     2) Player Statistics (Wins, Losses, Total games played)
     3) Difficulty Levels
     4) Limiting Attempts
+    5) Complete player history tracking
 """
 import random
 
@@ -15,12 +16,21 @@ class Player:
         self.wins = 0
         self.losses = 0
         self.replaying = False
+        self.history = []
 
     def play(self):
         #creates an instance of Game
         currentGame = Game(self)
         replay = currentGame.startGame(self.replaying)
         return replay
+    
+    def getHistory(self):
+        print("Player History:")
+        i = 1
+        for d in self.history:
+            print(f"Game {i}: {d}\n")
+            i += 1
+
 
 class Game:
 
@@ -43,6 +53,7 @@ class Game:
         self.currentGuesses = 0
         self.remainingGuesses = 0
         self.maxGuesses = 0
+        self.player.history.append({})
         if not replaying:
             #explain the game
             print("In this game, you will guess the number randomly selected by a random number generator.\n" \
@@ -78,6 +89,7 @@ class Game:
         self.remainingGuesses -= 1
         self.currentGuesses += 1
         int_guess = None
+        self.player.history[self.player.gamesPlayed][f"Guess {self.currentGuesses}"] = guess #save to player history
         try:
             int_guess = int(guess)
         except:
@@ -161,4 +173,6 @@ replay = True
 while replay:
     #lose/win return True or False depending on user input
     replay = user.play()
-    user.replaying = True
+    if replay:
+        user.replaying = True
+user.getHistory()
