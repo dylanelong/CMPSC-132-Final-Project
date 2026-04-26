@@ -44,7 +44,7 @@ class Game:
         #each key is a difficulty, with values of a dict
         #guesses is the number of guesses based on the difficulty
         #size is the highest integer that can be chosen by the random number generator
-        self.difficultyDict = {"Easy":{"Guesses": 10, "Size": 100}, "Medium":{"Guesses":10, "Size": 200}, "Hard":{"Guesses": 10, "Size":500}}
+        self.difficultyDict = {"Easy":{"Guesses": 10, "Size": 100}, "Medium":{"Guesses":7, "Size": 200}, "Hard":{"Guesses": 5, "Size":500}}
 
     def startGame(self, replaying):
         #initialize stats to 0 because of replay
@@ -59,9 +59,9 @@ class Game:
             print("In this game, you will guess the number randomly selected by a random number generator.\n" \
             "The Number will always be a positive integer.\n" \
             "The difficulty levels are as follows:\n" \
-            "-> Easy, where the number can range from 1 to 100\n" \
-            "-> Medium, where the number can range form 1 to 200\n" \
-            "-> Hard, where the number can range from 1 to 500\n")
+            "-> Easy, where the number can range from 1 to 100 and you get 10 guesses\n" \
+            "-> Medium, where the number can range form 1 to 200 and you get 7 guesses\n" \
+            "-> Hard, where the number can range from 1 to 500 and you get 5 guesses\n")
         #gather user input on what difficulty they want to play
         userInput = input("Select Difficulty (Easy, Medium, Hard): ")
         while userInput != "Easy" and userInput != "Medium" and userInput != "Hard":
